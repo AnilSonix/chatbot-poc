@@ -18,7 +18,7 @@ export const BotEditorHeader = () => {
         <ActionIcon
           variant="transparent"
           component="a"
-          href="https://www.linkedin.com/in/anilsonix/"
+          href="https://github.com/AnilSonix/chatbot-poc"
           target="_blank"
         >
           <IconBrandGithub />
