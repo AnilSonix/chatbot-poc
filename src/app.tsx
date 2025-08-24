@@ -5,7 +5,7 @@ import { BotEditor } from "./features/bot-editor/components/bot-editor";
 export const App = () => {
   return (
     <MantineProvider defaultColorScheme="light">
-      <Notifications />
+      <Notifications position="top-center" />
       <BotEditor />
     </MantineProvider>
   );

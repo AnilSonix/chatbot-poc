@@ -1,5 +1,6 @@
-import { ActionIcon, Button, Group, Image, Text } from "@mantine/core";
+import { ActionIcon, Group, Image, Text } from "@mantine/core";
 import { IconBrandGithub, IconBrandLinkedin } from "@tabler/icons-react";
+import SaveButton from "./bot-panel/components/save-button";
 
 export const BotEditorHeader = () => {
   return (
@@ -23,7 +24,7 @@ export const BotEditorHeader = () => {
         >
           <IconBrandGithub />
         </ActionIcon>
-        <Button variant="outline">Save changes</Button>
+        <SaveButton />
       </Group>
     </Group>
   );

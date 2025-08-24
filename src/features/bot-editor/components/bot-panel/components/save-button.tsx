@@ -1,17 +1,13 @@
-import { Button, Center, Stack } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import {
-  IconAlertCircle,
-  IconCheck,
-  IconPackageExport,
-} from "@tabler/icons-react";
+import { IconAlertCircle, IconCheck } from "@tabler/icons-react";
 import { Edge } from "reactflow";
 import { match } from "ts-pattern";
 import { EditorNodeType } from "../../../lib/nodes/node-type";
 import { Nodes } from "../../../lib/nodes/nodes";
 import useBotEditor from "../../../stores/useBotEditor";
 
-export default function ExportPanel() {
+export default function SaveButton() {
   const { nodes, edges } = useBotEditor();
 
   function handleSave() {
@@ -24,35 +20,28 @@ export default function ExportPanel() {
         icon: <IconCheck />,
       });
     } else {
-      errors.forEach((error) => {
-        notifications.show({
-          title: "Error",
-          message: error,
-          color: "red",
-          icon: <IconAlertCircle />,
-        });
+      console.error({ errors });
+
+      notifications.show({
+        title: "Error",
+        message: "Can't save changes",
+        color: "red",
+        icon: <IconAlertCircle />,
       });
     }
   }
 
   return (
     <>
-      <Center h="100%">
-        <Stack>
-          <IconPackageExport style={{ margin: "0 auto" }} size={36} />
-          <Button onClick={handleSave}>Save</Button>
-        </Stack>
-      </Center>
+      <Button variant="outline" onClick={handleSave}>
+        Save changes
+      </Button>
     </>
   );
 }
 
 function checkGraph(nodes: Nodes[], edges: Edge[]) {
   const errors: string[] = [];
-
-  if (nodes.length == 0) {
-    errors.push("There are no nodes");
-  }
 
   // check nodes count
   if (nodes.length > 1) {
