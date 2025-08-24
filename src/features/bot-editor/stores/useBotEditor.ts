@@ -25,6 +25,7 @@ type BotEdtorState = {
   setEdges: (edges: Edge[]) => void;
   updateNodeData: (nodeId: string, nodeData: Nodes["data"]) => void;
   addNewNode: (type: EditorNodeType, x: number, y: number) => void;
+  deselectAllNodes: VoidFunction;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -78,6 +79,13 @@ const useBotEditor = create<BotEdtorState>((set, get) => ({
       .exhaustive();
 
     get().setNodes([...get().nodes, newNode]);
+  },
+  deselectAllNodes() {
+    const nodes = get().nodes.map((n) => {
+      n.selected = false;
+      return n;
+    });
+    get().setNodes(nodes);
   },
 }));
 

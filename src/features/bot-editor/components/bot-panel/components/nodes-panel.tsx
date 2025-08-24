@@ -1,14 +1,34 @@
-import { Box, Button } from "@mantine/core";
-import { IconMessage } from "@tabler/icons-react";
-import { Node } from "reactflow";
+import { ActionIcon, Box, Button, Divider, Group, Text } from "@mantine/core";
+import { IconArrowLeft, IconMessage } from "@tabler/icons-react";
+import { match } from "ts-pattern";
 import { EditorNodeType } from "../../../lib/nodes/node-type";
 import useBotEditor from "../../../stores/useBotEditor";
+import useSelectedNodeAndEdge from "../hooks/useSelectedNodeAndEdge";
+import TextMessageNodeSettings from "./text-message-node-settings";
 
 export default function NodesPanel() {
-  const { setNodes, nodes } = useBotEditor();
+  const { selectedNode } = useSelectedNodeAndEdge();
+  const deselectAllNodes = useBotEditor((s) => s.deselectAllNodes);
 
-  function addNode(node: Node) {
-    setNodes([...nodes, node]);
+  if (selectedNode) {
+    return (
+      <Box h="100%">
+        <Group p="xs">
+          <ActionIcon variant="transparent" onClick={deselectAllNodes}>
+            <IconArrowLeft />
+          </ActionIcon>
+          <Text>Settings</Text>
+        </Group>
+        <Divider />
+        <Box p="sm">
+          {match(selectedNode.type as EditorNodeType)
+            .with(EditorNodeType.textMessageNode, () => (
+              <TextMessageNodeSettings nodeId={selectedNode.id} />
+            ))
+            .exhaustive()}
+        </Box>
+      </Box>
+    );
   }
 
   return (
@@ -16,7 +36,7 @@ export default function NodesPanel() {
       <Box p="sm">
         <Button
           leftSection={<IconMessage />}
-          variant="light"
+          variant="outline"
           fullWidth
           draggable
           onDragStart={(e) => {
@@ -26,7 +46,7 @@ export default function NodesPanel() {
             );
           }}
         >
-          Text node
+          Message
         </Button>
       </Box>
     </>
