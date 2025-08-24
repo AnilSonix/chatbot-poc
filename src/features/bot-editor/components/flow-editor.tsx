@@ -3,6 +3,7 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   NodeTypes,
+  useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { EditorNodeType } from "../lib/nodes/node-type";
@@ -16,12 +17,17 @@ const nodeTypes: NodeTypes = {
 export default function FlowEditor() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNewNode } =
     useBotEditor();
+  const { screenToFlowPosition } = useReactFlow();
 
   function addNodeOnDrop(e: React.DragEvent<HTMLDivElement>) {
+    const position = screenToFlowPosition({
+      x: e.clientX,
+      y: e.clientY,
+    });
     addNewNode(
       e.dataTransfer.getData("text/plain") as EditorNodeType,
-      e.clientX,
-      e.clientY
+      position.x,
+      position.y
     );
   }
 
