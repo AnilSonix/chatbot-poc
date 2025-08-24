@@ -5,6 +5,7 @@ import ReactFlow, {
   NodeTypes,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import { EditorNodeType } from "../lib/nodes/node-type";
 import TextMessageNode from "../nodes/text-message-node";
 import useBotEditor from "../stores/useBotEditor";
 
@@ -13,12 +14,27 @@ const nodeTypes: NodeTypes = {
 };
 
 export default function FlowEditor() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } =
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNewNode } =
     useBotEditor();
+
+  function addNodeOnDrop(e: React.DragEvent<HTMLDivElement>) {
+    addNewNode(
+      e.dataTransfer.getData("text/plain") as EditorNodeType,
+      e.clientX,
+      e.clientY - 100
+    );
+  }
 
   return (
     <>
-      <div style={{ width: "100%", height: "100%" }}>
+      <div
+        style={{ width: "100%", height: "100%" }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
+        }}
+        onDrop={addNodeOnDrop}
+      >
         <ReactFlow
           nodeTypes={nodeTypes}
           nodes={nodes}
