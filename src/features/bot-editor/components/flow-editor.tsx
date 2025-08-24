@@ -21,7 +21,7 @@ export default function FlowEditor() {
     addNewNode(
       e.dataTransfer.getData("text/plain") as EditorNodeType,
       e.clientX,
-      e.clientY - 100
+      e.clientY
     );
   }
 
